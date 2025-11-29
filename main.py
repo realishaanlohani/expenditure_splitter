@@ -23,21 +23,15 @@ class Expenditure_manager():
         self.balance = self.balance + amount
         print(f"{amount} was added to '{self.name}'")
     def takemoney(self, amount):
-        try:
-            self.viabletranc(amount)
+        if self.balance >= amount:
             self.balance = self.balance - amount
             print("Withdrawal Complete.")
             print(f"Current balance in '{self.name}' is {self.balance}")
-        except NotEnoughMoney as error: #giving the exception an alias "error"
-            print(f'\n Withdraw interrupted: {error}')
+        else:
+            print(f'\n Withdraw interrupted, Not enough balance')
     def makedaficit(self, amount, acc):
         acc.daficit = acc.daficit + amount
         print(f"{acc.name} owes {amount} to {self.name}")
-    def viabletranc(self, amount):
-        if self.balance >= amount:
-            return
-        else:
-            raise NotEnoughMoney(f"\nSorry '{self.name}' have ${self.balance:.2f}.")
     def trans(self, i, amount, length): #self, account, amount_to_deficit, len of sent_to_list
 
         try:
@@ -86,13 +80,13 @@ def createAccount(): #Logic to create an Account
             proceed()
         else:
             continue
-def accountstorecieve():
+def accountstorecieve(sender):
     global flagchoice
     flagchoice=1
     while flagchoice==1:
         print("Who is reciveing the money? : ")
         rec = int(input())
-        if ACCOUNTS[rec] in sendtoBuffer:
+        if (ACCOUNTS[rec] in sendtoBuffer) or ACCOUNTS[rec]==sender:
             print(f"Element with ID {rec} already chosen.\nYou may choose another account.")
         else:
             sendtoBuffer.append(ACCOUNTS[rec])
@@ -118,15 +112,21 @@ def proceed(): # What to do AFTER an Account is created
         sender = int(input())
         print("How much money do you wish to expend? ")
         money = int(input())
-        accountstorecieve()
+        accountstorecieve(sender)
+        a = money/len(sendtoBuffer)
         for i in sendtoBuffer:
-            
             # ACCOUNTS[sender].trans(i, money, len(sendtoBuffer))
-            # ACCOUNTS[sender].
-            pass
+            ACCOUNTS[sender].takemoney(a)
+            if ACCOUNTS[sender].balance>=money:
+                i.addmoney(money/len(sendtoBuffer))
+                ACCOUNTS[sender].makedaficit(a, i)
+            else:
+                print(f"Sorry, {ACCOUNTS[sender].name} does not have enough Balance to proceed the transaction! ")
+                break
         for i in range(1,len(ACCOUNTS)):
             print(f"\nName: {ACCOUNTS[i].name}, ID: {ACCOUNTS[i].id}, Amount: {ACCOUNTS[i].balance}") #Printing the list of currently made accounts
-
+        print("Now, ", end='')
+        proceed()
         # try:
         #     i.addmoney(amount/length)
         #     self.makedaficit(amount, i)
