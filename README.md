@@ -1,5 +1,4 @@
 # expenditure_splitter
-## Description
 
 Expense Manager is a basic command line tool designed to simplify tracking shared expenses within a group. It allows users to easily record payments, maintain a list of participants, and automatically calculate an equal way to settle debts, ensuring everyone pays their part of the payment.
 
@@ -40,13 +39,13 @@ The application runs locally in your terminal. When you add a person or an expen
 
 ## Data Storage
 
-This project uses **CSV (Comma-Separated Values)** file system to store and manage data. Data is saved to `expenses.csv` (or similar) in the project root. You can open this file in Excel or any text editor to view or back up your raw data!
+This project uses CSV file system to store and manage data. Data is saved to `expenses.csv` in the project root. You can open this file in Excel or any text editor to view or back up your raw data!
 
 ## Requirements
 
-**Python**
+**Python** (any latest version)
 
-## Notes / Limitations
+## Notes
 
   * Currently, the logic assumes all expenses are split equally among all participants.
   * Data is stored locally on your machine, therefore is not being stored online.
